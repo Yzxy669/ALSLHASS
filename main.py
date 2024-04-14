@@ -3,8 +3,8 @@ from predict import *
 
 if __name__ == '__main__':
     # 参数设置
-    orig_image = cv2.imread('D:\\Classification\\paper_01_2021019\\Data\\Salinas\\Salinas_PCA.tif')
-    data_path = 'D:\\Classification\\paper_01_2021019\\Experiment-2\\Salinas\\CD'  # 数据保存的主干路径
+    orig_image = cv2.imread('Data path')
+    data_path = 'Backbone path for data storage'  
     sample_nums = 15  # 初始样本个数
     class_num = 16
     fuse_type = 'AFF'  # 注意力特征融合类型
