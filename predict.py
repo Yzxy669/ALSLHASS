@@ -199,7 +199,7 @@ def add_new_samples(guide_feature, pre_class_path, features_list, sample_nums, i
 
 
 # ========================================================辅助函数================================================================
-# 计算欧氏距离
+
 def euclidean_distance(vectors_list):
     vectors_list = np.array(vectors_list)
     vecA = vectors_list[0]
@@ -210,8 +210,6 @@ def euclidean_distance(vectors_list):
         ed_vector.append(c)
     return ed_vector
 
-
-# 余玄距离
 def Residual_distance(vectors_list):
     vectors_list = np.array(vectors_list)
     vecA = vectors_list[0]
@@ -224,7 +222,6 @@ def Residual_distance(vectors_list):
     return rd_vector
 
 
-# 曼哈顿距离
 def Manhattan_distance(vectors_list):
     vectors_list = np.array(vectors_list)
     vecA = vectors_list[0]
@@ -237,7 +234,6 @@ def Manhattan_distance(vectors_list):
     return Man_distance
 
 
-# 切比雪夫距离
 def Chebyshev_distance(vectors_list):
     vectors_list = np.array(vectors_list)
     vecA = vectors_list[0]
@@ -250,7 +246,6 @@ def Chebyshev_distance(vectors_list):
     return Che_distance
 
 
-# 去除初始训练样本与分类后样本距离在异常值之外的样本
 def rough_sample(image_path, features, per_samples):
     feature_precise = np.mean(features[0:per_samples], 0)  # 计算准确训练样本的特征均值
     rf_feat = features[per_samples:len(features)]
@@ -261,7 +256,6 @@ def rough_sample(image_path, features, per_samples):
     return coarse_sample_path, coarse_feature
 
 
-# 为得到的距离构造直方图
 def similarity_histogram(dist_vector, features, image_path):
     dis_norm = MaxMinNormalization(dist_vector)
     feature_bin = [[] for i in range(10)]
