@@ -1,4 +1,3 @@
-from Tool import DataProduction as dp
 from train_and_verif import cross_train_verifi
 from predict import *
 
