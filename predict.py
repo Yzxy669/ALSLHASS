@@ -20,7 +20,7 @@ from scipy.spatial.distance import mahalanobis
 plt.switch_backend('agg')
 
 
-# 测试模式,预测整张影像的标签
+# 测试模式,预测标签
 def predict(net_model, test_loader, class_num, iter_num, data_path):
     net_model.eval()
     train_sample_path = data_path + '\\Train-%s' % (iter_num + 1)  # 初始化所有数据路径
@@ -104,14 +104,6 @@ def add_new_samples(guide_feature, pre_class_path, features_list, sample_nums, i
     # 选择置信度高的伪标签样本
     can_feature = [[] for i in range(len(features_list))]
     can_img_path = [[] for i in range(len(features_list))]
-
-
-
-
-
-
-
-
     min_sample_num = math.inf  # 记录最少一类伪标签样本的个数
     for class_i in range(len(features_list)):
         c_image_path, c_feature = rough_sample(pre_class_path[class_i], features_list[class_i], sample_nums)
@@ -283,7 +275,7 @@ def similarity_histogram(dist_vector, features, image_path):
     return feature_bin, image_path_bin
 
 
-# 线箱原理去除异常值
+
 def remove_outliers(dist_vector, image_path, features_list, per_samples):
     rs_image_path = []
     rs_feature = []
