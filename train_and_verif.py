@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 # 训练
 def cross_train_verifi(train_loader, num_classes, fuse_type, verifi_Loader, save_path, iter_num):
-    net_model = aff_resnet.resnet34(num_classes, fuse_type=fuse_type, small_input=False).train()
+    net_model = aff_resnet.resnet50(num_classes, fuse_type=fuse_type, small_input=False).train()
     if torch.cuda.is_available():  # GPU是否可用
         net_model = net_model.cuda()
     # 定义损失函数
