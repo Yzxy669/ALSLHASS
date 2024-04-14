@@ -5,8 +5,6 @@ import torchvision.transforms
 from numpy import mat, ones
 from torch import nn
 from torch.utils.data import DataLoader
-from Tool import DataProduction as dp
-from Tool import Evaluation as eval
 import aff_resnet
 from tqdm import tqdm
 
