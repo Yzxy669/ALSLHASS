@@ -24,7 +24,7 @@ def cross_train_verifi(train_loader, num_classes, fuse_type, verifi_Loader, save
     optimizer = torch.optim.SGD(net_model.parameters(), lr=5e-3, momentum=0.9)
     accuracy = 0.0  # 保存精度
     # 训练
-    for epoch in range(600):
+    for epoch in range(500):
         i = 0
         with tqdm(total=len(train_loader), desc='Train Epoch #{}'.format(epoch + 1), ncols=100) as tq:
             for imgae, label in tqdm(train_loader):
