@@ -38,4 +38,4 @@ if __name__ == '__main__':
         print("开始测试.....")
         guide_feature, pre_class_path, features_list = predict(aff_resnet_model, test_loader, class_num, iter_num,
                                                                data_path)
-        iter_num+=1
+        iter_num += 1
