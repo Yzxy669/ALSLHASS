@@ -84,7 +84,7 @@ def add_new_samples(guide_feature, pre_class_path, features_list, sample_nums, i
     cl_image_path = [[] for i in range(len(features_list))]  # 存储每一类选择到的训练样本路径
     con_feature = [[] for i in range(len(features_list))]
     con_img_path = [[] for i in range(len(features_list))]
-    max_sample = 0  # 初始化最大训练样本数
+    max_sample = 0  
     # 构造KNN，决策树分类器的训练样本
     x_train_feature = []  # 存储训练数据的特征值
     y_train_label = []  # 存储训练数据的标签
@@ -126,7 +126,7 @@ def add_new_samples(guide_feature, pre_class_path, features_list, sample_nums, i
         c_mean = np.mean(features_list[class_i][0:sample_nums], 0)  # 计算训练样本的特征均值
         m_c_feat = con_feature[class_i][:]
         m_c_feat.insert(0, c_mean)
-        dist_vector = Chebyshev_distance(m_c_feat)  # 计算距离（可选择欧式距离，曼哈顿距离、余玄距离，切比雪夫距离等）
+        dist_vector = euclidean_distance(m_c_feat)  
         sample_feature, sample_image = similarity_histogram(dist_vector, con_feature[class_i], con_img_path[class_i])
         # 按照直方图及相似比例选择训练样本
         for bin_i in range(len(sample_feature)):
@@ -243,12 +243,12 @@ def Chebyshev_distance(vectors_list):
 
 
 def rough_sample(image_path, features, per_samples):
-    feature_precise = np.mean(features[0:per_samples], 0)  # 计算准确训练样本的特征均值
+    feature_precise = np.mean(features[0:per_samples], 0)  
     rf_feat = features[per_samples:len(features)]
     rf_feat.insert(0, feature_precise)
-    dist_vector = Chebyshev_distance(rf_feat)  # 计算第一个特征向量与后面特征向量的距离
+    dist_vector = Chebyshev_distance(rf_feat)  
     coarse_sample_path, coarse_feature = remove_outliers(dist_vector, image_path,
-                                                         features, per_samples)  # 选择合理范围之内的样本
+                                                         features, per_samples) 
     return coarse_sample_path, coarse_feature
 
 def similarity_histogram(dist_vector, features, image_path):
