@@ -1,20 +1,14 @@
-import numpy as np
 import torch
-import cv2
-import torchvision.transforms
-from numpy import mat, ones
 from torch import nn
-from torch.utils.data import DataLoader
-from Tool import DataProduction as dp
 from Tool import Evaluation as eval
 import aff_resnet
 from tqdm import tqdm
 
 
 # 训练
-def cross_train_verifi(train_loader, num_classes, fuse_type, verifi_Loader, save_path, iter_num):
-    net_model = aff_resnet.resnet18(num_classes, fuse_type=fuse_type,
-                                    small_input=False).train()  # 可选择resnet18，resnet34，resnet50作为backbone
+def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter_num):
+    net_model = aff_resnet.resnet18(num_classes, fuse_type='AFF',
+                                    small_input=False).train()  # 可选择resnet18，resnet34，resnet50
 
     if torch.cuda.is_available():  # GPU是否可用
         net_model = net_model.cuda()
@@ -22,7 +16,7 @@ def cross_train_verifi(train_loader, num_classes, fuse_type, verifi_Loader, save
     criterion = nn.CrossEntropyLoss()
     # 定义优化器
     optimizer = torch.optim.SGD(net_model.parameters(), lr=5e-3, momentum=0.9)
-    accuracy = 0.0  # 保存精度
+    accuracy = 0.0  # 初始化精度
     # 训练
     for epoch in range(500):
         i = 0
@@ -43,22 +37,22 @@ def cross_train_verifi(train_loader, num_classes, fuse_type, verifi_Loader, save
                 loss.backward()
                 optimizer.step()
         # 交叉熵验证
-        if epoch + 1 >= 200 and (epoch + 1) % 50 == 0:
+        if epoch + 1 >= 50 and (epoch + 1) % 50 == 0:
             print("开始验证......")
             eval_f1 = verifi_start(net_model, verifi_Loader, save_path, iter_num)
             net_model.train()
             if str(eval_f1[2]) == 'nan':
                 print('验证精度结果异常，继续训练')
-            elif eval_f1[2] >= accuracy:
+            elif eval_f1[0] >= accuracy:
                 print(eval_f1[0], eval_f1[1], eval_f1[2])
-                accuracy = eval_f1[2]
-                torch.save(net_model.state_dict(), '%s\\model\\down_best_model_%s.pth' % (save_path, iter_num))
+                accuracy = eval_f1[0]
+                torch.save(net_model.state_dict(), './model/down_best_model_%s.pth' % iter_num)
     if accuracy == 0:
         print('模型训练失败，程序退出')
         exit(0)
     else:
         print('训练完毕，返回模型')
-        net_model.load_state_dict(torch.load('%s\\model\\down_best_model_%s.pth' % (save_path, iter_num)))
+        net_model.load_state_dict(torch.load('./model/down_best_model_%s.pth' % iter_num))
 
     eval_f1 = verifi_start(net_model, verifi_Loader, save_path, iter_num)
     print(eval_f1[0], eval_f1[1], eval_f1[2])
@@ -71,7 +65,7 @@ def verifi_start(net_model, verifi_Loader, save_path, iter_num):
     true_label_set = 0
     predict_label_set = 0
     id = 0
-    for image, label in verifi_Loader:
+    for image, label in tqdm(verifi_Loader):
         if torch.cuda.is_available():
             image = image.cuda()
             label = label.cuda()
