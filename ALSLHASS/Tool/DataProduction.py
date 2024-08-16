@@ -9,9 +9,9 @@ import torchvision
 
 
 class ISBI_Loader(Dataset):
-    # 初始化函数，读取所有DataPathName下的图片
+    # 初始化函数，读取所有DataPathName下的数据
     def __init__(self, data_path, data_type, transform):
-        # 初始化函数，读取所有data_path下的图片
+        # 初始化函数，读取所有data_path下的数据
         self.data_path = data_path
         self.data_type = data_type
         self.images_path = glob.glob(os.path.join('%s\\%s\\*.png' % (data_path, data_type)))
