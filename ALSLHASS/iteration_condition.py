@@ -10,6 +10,6 @@ def whether_iteration(predict_label, iter_num):
         return 0
     else:
         current_pre_label = np.array(predict_label)
-        equal_prob = sum(current_pre_label != before_pre_label) / len(before_pre_label)
+        equal_prob = format(sum(current_pre_label != before_pre_label) / len(before_pre_label), '.3f')
         before_pre_label = np.array(predict_label)
         return equal_prob
