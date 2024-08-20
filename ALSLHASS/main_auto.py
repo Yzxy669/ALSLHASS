@@ -33,8 +33,7 @@ if __name__ == '__main__':
         guide_feature, pre_class_path, features_list, count_label = predict(aff_resnet_model, test_loader, class_num,
                                                                             iter_num, data_path)
         wi_a = whether_iteration(count_label, iter_num)
-        print(abs(wi_a - wi_b))
-        if abs(wi_a - wi_b) <= 0.01 or iter_num >= 10:
+        if abs(wi_a - wi_b) <= 0.001 or iter_num >= 10:
             sys.exit()
         else:
             wi_b = wi_a
