@@ -25,6 +25,8 @@ def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter
                 if torch.cuda.is_available():
                     imgae = imgae.cuda()
                     label = label.cuda()
+                 if image.size(0) == 1:
+                    continue
                 out = net_model(imgae)
                 pred = out[0]
                 loss = criterion(pred, label.long())
