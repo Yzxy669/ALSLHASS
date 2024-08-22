@@ -21,13 +21,13 @@ def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter
     for epoch in range(500):
         i = 0
         with tqdm(total=len(train_loader), desc='Train Epoch #{}'.format(epoch + 1), ncols=100) as tq:
-            for imgae, label in tqdm(train_loader):
+            for image, label in tqdm(train_loader):
                 if torch.cuda.is_available():
-                    imgae = imgae.cuda()
+                    image = image.cuda()
                     label = label.cuda()
-                 if image.size(0) == 1:
+                if image.size(0) == 1:
                     continue
-                out = net_model(imgae)
+                out = net_model(image)
                 pred = out[0]
                 loss = criterion(pred, label.long())
                 i += 1
