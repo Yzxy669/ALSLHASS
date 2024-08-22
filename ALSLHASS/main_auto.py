@@ -13,7 +13,7 @@ if __name__ == '__main__':
     ##################################################################################################
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     iter_num = 0  # 初始迭代次数
-    wi_b = 1  # 初始化差异率
+    wi_b = 1.0  # 初始化差异率
     while True:
         Train_iterNum = 'Train-%s' % iter_num
         # 加载训练数据
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         guide_feature, pre_class_path, features_list, count_label = predict(aff_resnet_model, test_loader, class_num,
                                                                             iter_num, data_path)
         wi_a = whether_iteration(count_label, iter_num)
-        if abs(wi_a - wi_b) <= 0.001 or iter_num >= 10:
+        if round(abs(wi_a - wi_b), 3) <= 0.001 or iter_num >= 10:
             sys.exit()
         else:
             wi_b = wi_a
