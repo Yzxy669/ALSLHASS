@@ -43,21 +43,17 @@ def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter
             print("开始验证......")
             eval_f1 = verifi_start(net_model, verifi_Loader, save_path, iter_num)
             net_model.train()
-            if str(eval_f1[2]) == 'nan':
-                print('验证精度结果异常，继续训练')
-            elif eval_f1[0] >= accuracy:
+            if eval_f1[0] > accuracy and str(eval_f1[2]) != 'nan':
                 print(eval_f1[0], eval_f1[1], eval_f1[2])
                 accuracy = eval_f1[0]
                 torch.save(net_model.state_dict(), './model/down_best_model_%s.pth' % iter_num)
+    print('训练完毕，返回模型')
     if accuracy == 0:
-        print('模型训练失败，程序退出')
-        exit(0)
-    else:
-        print('训练完毕，返回模型')
-        net_model.load_state_dict(torch.load('./model/down_best_model_%s.pth' % iter_num))
-
+        exit('第%s次迭代模型训练失败，算法结束' % iter_num)
+    net_model.load_state_dict(torch.load('./model/down_best_model_%s.pth' % iter_num))
     eval_f1 = verifi_start(net_model, verifi_Loader, save_path, iter_num)
     print(eval_f1[0], eval_f1[1], eval_f1[2])
+
     return net_model
 
 
