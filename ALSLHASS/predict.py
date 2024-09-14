@@ -109,7 +109,7 @@ def add_new_samples(guide_feature, pre_class_path, features_list, sample_nums, i
                 can_img_path[class_i].append(c_image_path[i])
 
     for class_i in range(len(can_img_path)):
-        sel_sample_num = int(len(can_img_path[class_i]) * 0.5)  # 根据设备算力设置每类地物随机选取的数量
+        sel_sample_num = int(len(can_img_path[class_i]) * 0.6)  # 根据设备算力设置每类地物随机选取的数量
         rand_num = random.sample(range(0, len(can_img_path[class_i])), sel_sample_num)
         for j in range(sel_sample_num):
             con_feature[class_i].append(can_feature[class_i][rand_num[j]])
