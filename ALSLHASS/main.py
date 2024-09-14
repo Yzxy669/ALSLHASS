@@ -22,7 +22,6 @@ if __name__ == '__main__':
     # 模型
     print("开始训练.....")
     aff_resnet_model = cross_train_verifi(train_loader, class_num, val_loader, data_path, iter_num)
-
     isbi_dataset = dp.ISBI_Loader(data_path, 'Test', transform=torchvision.transforms.ToTensor())
     test_loader = torch.utils.data.DataLoader(dataset=isbi_dataset, batch_size=256, shuffle=False)
     print("开始测试.....")
