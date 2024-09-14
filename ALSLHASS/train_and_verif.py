@@ -1,15 +1,13 @@
 import torch
 from torch import nn
 from Tool import Evaluation as eval
-import aff_resnet
+from aff_resnet import *
 from tqdm import tqdm
 
 
 # 训练
-def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter_num):
-    net_model = aff_resnet.resnet18(num_classes, fuse_type='AFF',
-                                    small_input=False).train()  # 可选择resnet18，resnet34，resnet50
-
+def cross_train_verify(train_loader, num_classes, verify_Loader, save_path, iter_num):
+    net_model = aff_net(num_classes, fuse_type='AFF', small_input=False).train()
     if torch.cuda.is_available():  # GPU是否可用
         net_model = net_model.cuda()
     # 定义损失函数
@@ -41,7 +39,7 @@ def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter
         # 交叉熵验证
         if epoch + 1 >= 50 and (epoch + 1) % 50 == 0:
             print("开始验证......")
-            eval_f1 = verifi_start(net_model, verifi_Loader, save_path, iter_num)
+            eval_f1 = verify_start(net_model, verify_Loader, save_path, iter_num)
             net_model.train()
             if eval_f1[0] > accuracy and str(eval_f1[2]) != 'nan':
                 print(eval_f1[0], eval_f1[1], eval_f1[2])
@@ -51,19 +49,19 @@ def cross_train_verifi(train_loader, num_classes, verifi_Loader, save_path, iter
     if accuracy == 0:
         exit('第%s次迭代模型训练失败，算法结束' % iter_num)
     net_model.load_state_dict(torch.load('./model/down_best_model_%s.pth' % iter_num))
-    eval_f1 = verifi_start(net_model, verifi_Loader, save_path, iter_num)
+    eval_f1 = verify_start(net_model, verify_Loader, save_path, iter_num)
     print(eval_f1[0], eval_f1[1], eval_f1[2])
 
     return net_model
 
 
 # 验证
-def verifi_start(net_model, verifi_Loader, save_path, iter_num):
+def verify_start(net_model, verify_Loader, save_path, iter_num):
     net_model.eval()  # 验证模式
     true_label_set = 0
     predict_label_set = 0
     id = 0
-    for image, label in tqdm(verifi_Loader):
+    for image, label in tqdm(verify_Loader):
         if torch.cuda.is_available():
             image = image.cuda()
             label = label.cuda()
