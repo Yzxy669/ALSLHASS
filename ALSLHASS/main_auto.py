@@ -18,7 +18,7 @@ if __name__ == '__main__':
         Train_iterNum = 'Train-%s' % iter_num
         # 加载训练数据
         is_bi_dataset = dp.ISBI_Loader(data_path, Train_iterNum, transform=torchvision.transforms.ToTensor())
-        train_loader = torch.utils.data.DataLoader(dataset=is_bi_dataset, batch_size=16, shuffle=True)
+        train_loader = torch.utils.data.DataLoader(dataset=is_bi_dataset, batch_size=32, shuffle=True)
 
         is_bi_dataset = dp.ISBI_Loader(data_path, 'ValidSet', transform=torchvision.transforms.ToTensor())
         val_loader = torch.utils.data.DataLoader(dataset=is_bi_dataset, batch_size=256, shuffle=False)
