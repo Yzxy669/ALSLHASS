@@ -15,7 +15,6 @@ if __name__ == '__main__':
     # 加载训练数据
     isbi_dataset = dp.ISBI_Loader(data_path, Train_iterNum, transform=torchvision.transforms.ToTensor())
     train_loader = torch.utils.data.DataLoader(dataset=isbi_dataset, batch_size=32, shuffle=True)
-
     isbi_dataset = dp.ISBI_Loader(data_path, 'ValidSet', transform=torchvision.transforms.ToTensor())
     val_loader = torch.utils.data.DataLoader(dataset=isbi_dataset, batch_size=256, shuffle=False)
 
