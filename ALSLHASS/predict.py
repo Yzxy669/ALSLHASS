@@ -18,7 +18,7 @@ plt.switch_backend('agg')
 #预测整张影像的标签
 def predict(net_model, test_loader, class_num, iter_num, data_path):
     net_model.eval() 
-    train_sample_path = data_path + '\\Train-%s' % (iter_num + 1)  # 初始化下一次训练样本的数据路径
+    train_sample_path = data_path + '\\Train-%s' % (iter_num + 1)  
     if not os.path.exists(train_sample_path):
         os.mkdir(train_sample_path)
     transform = torchvision.transforms.ToTensor()
@@ -53,8 +53,8 @@ def predict(net_model, test_loader, class_num, iter_num, data_path):
         str_1 = str[len(str) - 1].split('-')
         label = int(str_1[0]) - 1
         initial_sample = cv2.imread(path_i[0])
-        image = transform(initial_sample)  # 将Images影像的维度数轴变换
-        image = torch.unsqueeze(image, 0)  # 将三维的Tensor包装成四维
+        image = transform(initial_sample)  
+        image = torch.unsqueeze(image, 0)  
         output = net_model(image.cuda())
         _, feats = output[0], output[1]
         feats = feats.cuda().data.cpu().tolist()  # 提取到的深度特征
