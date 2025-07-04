@@ -6,8 +6,8 @@ if __name__ == '__main__':
     # 参数设置
     orig_image = cv2.imread('读取数据影像')
     data_path = '读取数据路径'
-    sample_nums = '设置每一类的样本个数'
-    class_num = '设置数据对应的类别个数'  
+    sample_nums = '样本个数'
+    class_num = '类别个数'  
     ##################################################################################################
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     iter_num = 0  # 当前迭代次数
